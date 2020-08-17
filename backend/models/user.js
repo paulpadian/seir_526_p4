@@ -1,3 +1,6 @@
+// user model decleration 
+// define use case
+// import libraries 
 'use strict';
 const bcrypt = require('bcrypt')
 
@@ -31,7 +34,19 @@ module.exports = function(sequelize, DataTypes) {
                 }
             }
         },
-              
+        admin: {
+            type: DataTypes.STRING,
+            validate: {
+                len: {
+                    args: [0, 10],
+                    msg: 'is admin or not'
+                }
+            }
+           
+        },
+        bio: {
+            type: DataTypes.TEXT
+        }
     }, {
         hooks: {
             //take inputed password
@@ -50,6 +65,7 @@ module.exports = function(sequelize, DataTypes) {
     })
     user.associate = function(models) {
         //any associations can go here
+        models.user.hasMany(models.comment)
     }
     //valid definition to validate at login
     user.prototype.validPassword = function(passwordTyped) {
